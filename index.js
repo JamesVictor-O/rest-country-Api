@@ -13,13 +13,10 @@ async function getCountries() {
         let responseWithCapitalcity = response.filter(element => {
             return element.capital;
         })
-      
-        let nigeria = responseWithCapitalcity.filter(element => {
-            return element.name.common.toLowerCase().includes("Nigeria".toLowerCase())
-            // console.log(element.name.common)
-        })
-       console.log(nigeria)
-       displayCountries(responseWithCapitalcity,countryContainerEl)
+        
+        displayCountries(responseWithCapitalcity)
+        countrySearch(searchBtnEl,responseWithCapitalcity)
+       
         
     } catch (err) {
         console.log(err)
@@ -28,8 +25,27 @@ async function getCountries() {
 getCountries()
 
 // displaying country
-function displayCountries(response,country) {
-    response.forEach(element => {
+function displayCountries(response) {
+    renderCountries(response)
+}
+
+function countrySearch(button,response) {
+    const inputSearchEl = document.querySelector(".inputSearch");
+    button.addEventListener("click", () => {
+        countryContainerEl.innerHTML = "";
+        let searchInput = inputSearchEl.value;
+
+        let searchedValue = response.filter(element => {
+            return element.name.official.toLowerCase().includes(searchInput.toLowerCase())
+        })
+        renderCountries(searchedValue)
+        console.log(searchedValue)
+    })
+    
+}
+
+function renderCountries(countryArrays) {
+    countryArrays.forEach(element => {
         let imageEl = element.flags.png;
         let capitalEl = element.capital[0];
         let regionEl = element.region;
@@ -58,45 +74,11 @@ function displayCountries(response,country) {
         </div>
        </div>
         `
-      country.innerHTML += stateEl
+      countryContainerEl.innerHTML += stateEl
    })
+}
+
+// swicting modes
+function mode() {
     
 }
-
-function countrySearch(button) {
-    const inputSearchEl = document.querySelector(".inputSearch");
-    let searchInput;
-    button.addEventListener("click", () => {
-        searchInput = inputSearchEl.value;
-    })
-    return searchBtnEl;
-}
-countrySearch(searchBtnEl)
-
-let myName = [
-    {
-        name: "james victor",
-        age: 19
-    },
-    {
-        name: "ochula",
-        age: 19
-    },
-    {
-        name: "victor",
-        age: 19
-    },
-    {
-        name: "dahiru",
-        age: 19
-    },
-    {
-        name: "fediral republic of nigeria",
-        age: 19
-    }
-];
-
-let newArr = myName.filter(element => {
-    return element.name.includes("nig")
-})
-console.log(newArr)
