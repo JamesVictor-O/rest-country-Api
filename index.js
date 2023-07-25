@@ -1,7 +1,7 @@
 
 let countryContainerEl = document.querySelector(".countryCountainer");
 const searchBtnEl = document.querySelector(".searchBtn")
-
+const modeBtnEl=document.querySelector(".mode")
 let apiForAllRegion = "https://restcountries.com/v3.1/all";
 
 
@@ -17,6 +17,10 @@ async function getCountries() {
         displayCountries(responseWithCapitalcity)
         countrySearch(searchBtnEl,responseWithCapitalcity)
        
+        // let allCountries = document.querySelectorAll(".State");
+        // allCountries.addEventListener("click", () => {
+        //     alert("lets go")
+        // })
         
     } catch (err) {
         console.log(err)
@@ -79,6 +83,9 @@ function renderCountries(countryArrays) {
 }
 
 // swicting modes
-function mode() {
-    
+function mode(button) {
+    modeBtnEl.addEventListener("click", () => {
+        document.body.classList.toggle("lightMode")
+    })
 }
+mode(modeBtnEl)
