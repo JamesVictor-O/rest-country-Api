@@ -16,11 +16,7 @@ async function getCountries() {
         
         displayCountries(responseWithCapitalcity)
         countrySearch(searchBtnEl,responseWithCapitalcity)
-       
-        // let allCountries = document.querySelectorAll(".State");
-        // allCountries.addEventListener("click", () => {
-        //     alert("lets go")
-        // })
+        FilterCountry(responseWithCapitalcity)
         
     } catch (err) {
         console.log(err)
@@ -82,10 +78,27 @@ function renderCountries(countryArrays) {
    })
 }
 
+function FilterCountry(response) {
+    const filterSection = document.querySelector(".filterSection")
+    filterSection.addEventListener("change", () => {
+        countryContainerEl.innerHTML = "";
+        const filterValue = filterSection.value;
+        console.log(filterValue)
+        let filteredValue = response.filter(element => {
+            return element.region == filterValue;
+        })
+        renderCountries(filteredValue)
+    })
+}
 // swicting modes
 function mode(button) {
     modeBtnEl.addEventListener("click", () => {
-        document.body.classList.toggle("lightMode")
+        document.body.classList.toggle("lightMode");
+        if (document.body.classList.contains("lightMode")) {
+            document.querySelector(".modeDis").innerHTML="Light Mode"
+        } else {
+            document.querySelector(".modeDis").innerHTML="Dark Mode"
+        }
     })
 }
 mode(modeBtnEl)
