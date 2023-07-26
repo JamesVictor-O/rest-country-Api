@@ -1,11 +1,15 @@
 
 let countryContainerEl = document.querySelector(".countryCountainer");
 const searchBtnEl = document.querySelector(".searchBtn")
-const modeBtnEl=document.querySelector(".mode")
-let apiForAllRegion = "https://restcountries.com/v3.1/all";
+const modeBtnEl = document.querySelector(".mode")
+const backButtonEl=document.querySelector(".backBtn")
+const homePageEl = document.querySelector(".homepage");
+const countryDetailsEl=document.querySelector(".countryDetails")
+const apiForAllRegion = "https://restcountries.com/v3.1/all";
+const apiByName="https://restcountries.com/v3.1/name/{name}"
 
 
-async function getCountries() {
+async function getCountries(homepage,countryDe) {
     try {
         let returnedPromise = await fetch(`${apiForAllRegion}`)
         let response = await returnedPromise.json();
@@ -17,12 +21,25 @@ async function getCountries() {
         displayCountries(responseWithCapitalcity)
         countrySearch(searchBtnEl,responseWithCapitalcity)
         FilterCountry(responseWithCapitalcity)
+
+
+        let allCountries = document.querySelectorAll(".State");
+        allCountries.forEach(country => {
+            
+            country.addEventListener("click", () => {
+                let countryId = country.id
+                homepage.style.display = "none";
+                countryDe.style.display="flex"
+
+            })
+        })
+        console.log(allCountries)
         
     } catch (err) {
         console.log(err)
     }
 } 
-getCountries()
+getCountries(homePageEl,countryDetailsEl)
 
 // displaying country
 function displayCountries(response) {
@@ -51,9 +68,10 @@ function renderCountries(countryArrays) {
         let regionEl = element.region;
         let population = element.population;
         let officialNameEl = element.name.official;
+        let commonNameEl = element.name.common;
 
         let stateEl = `
-        <div class="State">
+        <div class="State" id=${commonNameEl}>
         <img src=${imageEl} alt="">
         <div class="stateDetails">
             <h3>${officialNameEl}</h3>
@@ -102,3 +120,17 @@ function mode(button) {
     })
 }
 mode(modeBtnEl)
+
+
+// displaying a particular countries information
+function eachCountryInformation() {
+    
+}
+
+function back(backBotton,home,country) {
+    backBotton.addEventListener("click", () => {
+        home.style.display = "block";
+        country.style.display="none"
+    })
+}
+back(backButtonEl,homePageEl,countryDetailsEl)
