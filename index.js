@@ -118,10 +118,28 @@ function renderCountriesDetails(countryArrays) {
         let currency = element.currencies;
         let currencyName=Object.values(currency)[0].name
         let realNative=Object.values(nativeNameEl)[0].official
+        let bordersEl = element.borders;
+        let languagesEL = element.languages;
+        
 
+        let borderFun = function () {
+            if (bordersEl.length === 0) {
+                return
+            }
+            let borderButton = bordersEl.map(element => `<input type="button" value=${element}>`).join('')
+            return `<div class="countryBorders">
+            <h2>Border Countries:</h2>
+            <div class="borders">
+                ${borderButton}
+            </div>
+         </div>`
+        } 
 
-
-        console.log(currencyName)
+        let lang = function () {
+            let language = Object.values(languagesEL);
+            let diStrcturedLang = language.map(element => element).join(",");
+            return diStrcturedLang
+        }
         let stateEl = `
         <div class="imgContainer">
         <img src=${imageEl} alt="">
@@ -165,23 +183,16 @@ function renderCountriesDetails(countryArrays) {
                 </div>
                 <div>
                     <label for="Currencies">Currencies:</label>
-                    <span>${cu}</span>
+                    <span>${currencyName}</span>
                 </div>
                 <div>
                     <label for="Languages">Languages:</label>
-                    <span>Dutch,French,German</span>
+                    <span>${lang()}</span>
                 </div>
                 
             </div>
          </div>
-         <div class="countryBorders">
-            <h2>Border Countries:</h2>
-            <div class="borders">
-                <input type="button" value="Germany">
-                <input type="button" value="France">
-                <input type="button" value="Netherlands">
-            </div>
-         </div>
+          ${borderFun()}
        </div>
         `
         aboutCountryEl.innerHTML = stateEl;
